@@ -1,0 +1,9 @@
+IsAggregate: false
+Host: "127.0.0.1"
+Port: 1883
+BrokerHost: "127.0.0.1"
+BrokerPort: 1884
+BrokerUser: "admin"
+BrokerPassword: "instar"
+LogFilePath: "gateway.log"
+MessageQueueSize: 100000
