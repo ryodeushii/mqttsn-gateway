@@ -18,6 +18,11 @@ RAM: up to 15MB
 CPU: up to 0.1 cores
 
 
-*Testing machine*
+**Testing machine**
 Lenovo Thinkpad T16 I7-1260P (12 cores - 4HP + 8 LP / 16 threads (vCores)), 32GB RAM
 
+
+**Tested with**
+
+[bisquitt-pub](https://github.com/energomonitor/bisquitt "link to repo")
+bisquitt-pub have to be installed 
