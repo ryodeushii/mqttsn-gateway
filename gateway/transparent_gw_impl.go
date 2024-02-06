@@ -206,6 +206,16 @@ func (g *TransparentGateway) handleConnect(conn *net.UDPConn, remote *net.UDPAdd
 			delete(g.MqttSnSessions, s.Remote.String())
 			s.shutDown <- true
 		}
+		is_authenticated, err := Authenticate(m.ClientId)
+		if err != nil || !is_authenticated {
+			log.Println("ERROR authenticating gateway: ", err)
+			// send conn ack
+			ack := message.NewConnAck()
+			ack.ReturnCode = message.MQTTSN_RC_REJECTED_CONGESTION
+			packet := ack.Marshall()
+			conn.WriteToUDP(packet, remote)
+			return
+		}
 
 		// create new session
 		s = NewTransparentSnSession(
@@ -220,7 +230,7 @@ func (g *TransparentGateway) handleConnect(conn *net.UDPConn, remote *net.UDPAdd
 			g.statisticsReporter)
 
 		// connect to mqtt broker
-		err := s.ConnectToBroker(message.HasCleanSessionFlag(m.Flags))
+		err = s.ConnectToBroker(message.HasCleanSessionFlag(m.Flags))
 		if err != nil {
 			log.Println("ERROR : ", err)
 			// send conn ack
